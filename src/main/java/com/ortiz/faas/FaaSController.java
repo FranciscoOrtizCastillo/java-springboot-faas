@@ -1,10 +1,13 @@
 package com.ortiz.faas;
 
+import java.util.Map;
+import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -28,6 +31,31 @@ public class FaaSController {
     public Supplier<String> supply() {
         return () -> {
             return "Salida sin consumir nada.";
+        };
+    }
+
+    @Bean
+    public Function<Map<String,Object>, String> mapjson() {
+        return input -> {
+            return "Hola "+
+                input.get("a")+" "+
+                ((List<Object>) input.get("b")).size();
+        };
+    }   
+    
+    @Bean
+    public Function<PersonaEntity, String> mapobject() {
+        return input -> {
+            return "Hola "+
+                input.getNombre()+" "+
+                input.getLista().size();
+        };
+    }
+
+    @Bean
+    public Function<Message<PersonaEntity>, String> mapmessage() {
+        return input -> {
+            return "Headers: "+input.getHeaders()+"\nPayload: "+input.getPayload()+"\n";
         };
     }
 }
