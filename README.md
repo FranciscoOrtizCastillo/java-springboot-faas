@@ -31,3 +31,21 @@ curl -X POST -d '{ "nombre" : "Pepe", "lista" : [1,2,3,4] }' -H "Content-Type: a
 curl -X POST -d '{ "nombre" : "Pepe", "lista" : [1,2,3,4] }' -H "Content-Type: application/json" -H "nonsecure: 1" http://localhost:8080/mapmessage
 ```
 
+## Creando contenedor Docker
+
+```bash
+
+docker build -t springboot-faas .
+
+docker images
+
+docker run -it -d -p 8080:8080 --name springboot-faas springboot-faas
+
+docker ps
+
+curl http://localhost:8080/function/SpringCloud
+
+docker logs ID -f
+
+docker kill ID
+```
